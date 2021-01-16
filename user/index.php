@@ -2,9 +2,9 @@
 <div class="pcoded-main-container">
     <div class="pcoded-wrapper">
         <?php 
-                    require 'sections/sidebar.php'; 
-                    require 'sections/pageheader.php'; 
-                    ?>
+        require 'sections/sidebar.php'; 
+        require 'sections/pageheader.php'; 
+        ?>
     </div>
 </div>
 
