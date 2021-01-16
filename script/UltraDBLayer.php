@@ -1,48 +1,55 @@
 <?php
-// connection string
-// $server = 'www.ccodblendedlearning.com';
-// $server_user = 'ccodgradschooluser';
-// $server_password = 'ccodgradschooluser@123';
-// $database = 'ccodble6_ccodgradschool';
+class UltraDBLayer{
+    // connection string
+    // $server = 'www.ccodblendedlearning.com';
+    // $server_user = 'ccodgradschooluser';
+    // $server_password = 'ccodgradschooluser@123';
+    // $database = 'ccodble6_ccodgradschool';
 
-$server = 'localhost';
-$server_user = 'root';
-$server_password = '';
-$database = 'hardware';
+    public $server = 'localhost';
+    public $server_user = 'root';
+    public $server_password = '';
+    public $database = 'ultralms';
 
-$conn = mysqli_connect($server, $server_user, $server_password, $database) or die('Error connecting Database');
+    // $conn = mysqli_connect($server, $server_user, $server_password, $database) or die('Error connecting Database');
 
-function validate($data)
-{
-    if (empty($data)) {
-        return 'empty';
-    } else {
-        $data = trim($data);
-        $data = htmlspecialchars($data);
-        $data = filter_var($data, FILTER_SANITIZE_STRING);
-        return $data;
-    } //end if
-}
+    public function connection()
+    {
+        $conn = mysqli_connect($this->server, $this->server_user, $this->server_password, $this->database) or die('Error connecting Database');
+        return $conn;
+    }
 
-function select_records($table)
-{
-    global $conn;
-    $query = mysqli_query($conn, "SELECT * FROM $table") or die('Something went wrong');
-    return $query;
-}
+    public function validate($data)
+    {
+        if (empty($data)) {
+            return 'empty';
+        } else {
+            $data = trim($data);
+            $data = htmlspecialchars($data);
+            $data = filter_var($data, FILTER_SANITIZE_STRING);
+            return $data;
+        } //end if
+    }
 
-function select_records_in_order($table, $order)
-{
-    global $conn;
-    $query = mysqli_query($conn, "SELECT * FROM $table ORDER BY $order") or die('Something went wrong');
-    return $query;
-}
+    public function select_records($table)
+    {
+        $conn = $this->connection();
+        $query = mysqli_query($conn, "SELECT * FROM $table") or die('Something went wrong');
+        return $query;
+    }
 
-function select_single_column($column,$table){
-	global $conn;
-	$query = mysqli_query($conn,"SELECT $column FROM $table") or die('Something went wrong');
-	return $query;
-}
+    function select_records_in_order($table, $order)
+    {
+        $conn = $this->connection();
+        $query = mysqli_query($conn, "SELECT * FROM $table ORDER BY $order") or die('Something went wrong');
+        return $query;
+    }
+
+    function select_single_column($column,$table){
+        global $conn;
+        $query = mysqli_query($conn,"SELECT $column FROM $table") or die('Something went wrong');
+        return $query;
+    }
 
 function select_single_column_on_condition($column,$table,$condition){
 	global $conn;
@@ -95,65 +102,66 @@ function count_rows_on_condition($table, $condition)
     return $count;
 }
 
-function delete_records($table)
-{
-    global $conn;
-    $query = mysqli_query($conn, "TRUNCATE $table") or die('Something went wrong');
-    if (mysqli_affected_rows($query) > 0) {
-        return 'success';
-    } else {
-        return 'failed';
+    function delete_records(string $table)
+    {
+        $conn = $this->connection();
+        $query = mysqli_query($conn, "TRUNCATE $table") or die('Something went wrong');
+        if (mysqli_affected_rows($query) > 0) {
+            return 'success';
+        } else {
+            return 'failed';
+        }
     }
-}
 
-function delete_record_on_condition($table, $condition)
-{
-    global $conn;
-    $query = mysqli_query($conn, "DELETE FROM $table WHERE $condition") or die('Something went wrong');
-    if ($query) {
-        return 'success';
-    } else {
-        return 'failed';
+    function delete_record_on_condition(string $table, string $condition)
+    {
+        $conn = $this->connection();
+        $query = mysqli_query($conn, "DELETE FROM $table WHERE $condition") or die('Something went wrong');
+        if ($query) {
+            return 'success';
+        } else {
+            return 'failed';
+        }
     }
-}
 
-function insert_data($table, $fields, $values)
-{
-    global $conn;
-    $str = implode(",", $fields);
-    $val = implode(",", $values);
-    $query = "insert into $table($str) values($val)";
-    $exec = mysqli_query($conn, $query) or die(mysqli_error($conn));
-    if ($exec) {
-        return 'success';
-    } else {
-        return 'failed';
+    public function insert_data(string $table, array $fields, array $values)
+    {
+        $conn = $this->connection();
+        $str = implode(",", $fields);
+        $val = implode(",", $values);
+        $query = "insert into $table($str) values($val)";
+        $exec = mysqli_query($conn, $query) or die(mysqli_error($conn));
+        if ($exec) {
+            return 'success';
+        } else {
+            return 'failed';
+        }
     }
-}
 
-function update_records($table, $values)
-{
-    global $conn;
-    $query = mysqli_query($conn, "UPDATE $table SET $values") or die('Something went wrong');
-    if ($query) {
-        return 'success';
-    } else {
-        return 'failed';
+    public function update_records(string $table, string $values)
+    {
+        $conn = $this->connection();
+        $query = mysqli_query($conn, "UPDATE $table SET $values") or die('Something went wrong');
+        if ($query) {
+            return 'success';
+        } else {
+            return 'failed';
+        }
     }
-}
 
-function update_record_on_condition($table, $values, $condition)
-{
-    global $conn;
-    $query = mysqli_query($conn, "UPDATE $table SET $values WHERE $condition") or die("Something went wrong");
-    if ($query) {
-        return 'success';
-    } else {
-        return 'failed';
+    public function update_record_on_condition(string $table, string $values, string $condition)
+    {
+        $conn = $this->connection();
+        $query = mysqli_query($conn, "UPDATE $table SET $values WHERE $condition") or die("Something went wrong");
+        if ($query) {
+            return 'success';
+        } else {
+            return 'failed';
+        }
     }
-}
 
-function record_login_out($userid,$remarks){
+function record_login_out($userid,$remarks)
+{
     global $conn;
 
     $ip = NULL; $deep_detect = TRUE;
@@ -246,4 +254,6 @@ function record_login_out($userid,$remarks){
         $details = $browser.' on '.$os_platform;
 
         mysqli_query($conn,"INSERT INTO system_logs(userid,ipaddress,location,details,remarks) values('$userid','$ip','$location','$details','$remarks')");
+    }
+
 }
