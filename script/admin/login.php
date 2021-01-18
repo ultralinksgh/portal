@@ -15,19 +15,23 @@
                 echo ('Invalid CSRF token');
             else:
                 $conn = $db->connection();
-                $query = mysqli_query($conn, "SELECT * FROM admins WHERE username='$username'") or die("Something went wrong");
+                $query = mysqli_query($conn, "SELECT * FROM system_users WHERE username='$username'") or die("Something went wrong");
      
                 if($query){
                     if(mysqli_num_rows($query)>0){
                         $row = mysqli_fetch_assoc($query);
-                        if(password_verify($password,$row['password'])){
-                            $_SESSION['user']=$row;
-                            echo 'success';
+                        if($row['status'] == "active"){
+                            if(password_verify($password,$row['password'])){
+                                $_SESSION['user']=$row;
+                                echo 'success';
+                            }else{
+                                echo 'Your credentials are invalid';
+                            }
                         }else{
-                            echo 'Your credentials are invalid';
+                            echo 'Your account is deactivated.';
                         }
                     }else{
-                        echo 'Your credentials are invalid';
+                        echo 'Your credentials are invalid.';
                     }
                 }
             endif;

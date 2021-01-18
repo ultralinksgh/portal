@@ -126,6 +126,7 @@ function count_rows_on_condition($table, $condition)
 
     public function insert_data(string $table, array $fields, array $values)
     {
+        date_default_timezone_set('Africa/Accra');
         $conn = $this->connection();
         $str = implode(",", $fields);
         $val = implode(",", $values);
@@ -140,6 +141,7 @@ function count_rows_on_condition($table, $condition)
 
     public function update_records(string $table, string $values)
     {
+        date_default_timezone_set('Africa/Accra');
         $conn = $this->connection();
         $query = mysqli_query($conn, "UPDATE $table SET $values") or die('Something went wrong');
         if ($query) {
@@ -151,6 +153,7 @@ function count_rows_on_condition($table, $condition)
 
     public function update_record_on_condition(string $table, string $values, string $condition)
     {
+        date_default_timezone_set('Africa/Accra');
         $conn = $this->connection();
         $query = mysqli_query($conn, "UPDATE $table SET $values WHERE $condition") or die("Something went wrong");
         if ($query) {
