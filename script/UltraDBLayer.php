@@ -9,7 +9,7 @@ class UltraDBLayer{
     public $server = 'localhost';
     public $server_user = 'root';
     public $server_password = '';
-    public $database = 'ultralms';
+    public $database = 'cbldatabase';
 
     // $conn = mysqli_connect($server, $server_user, $server_password, $database) or die('Error connecting Database');
 
@@ -126,7 +126,7 @@ function count_rows_on_condition($table, $condition)
 
     public function insert_data(string $table, array $fields, array $values)
     {
-        date_default_timezone_set('Africa/Accra');
+        // date_default_timezone_set('Africa/Accra');
         $conn = $this->connection();
         $str = implode(",", $fields);
         $val = implode(",", $values);

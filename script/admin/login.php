@@ -16,14 +16,15 @@
             else:
                 $conn = $db->connection();
                 $query = mysqli_query($conn, "SELECT * FROM system_users WHERE username='$username'") or die("Something went wrong");
-     
+
                 if($query){
                     if(mysqli_num_rows($query)>0){
                         $row = mysqli_fetch_assoc($query);
                         if($row['status'] == "active"){
                             if(password_verify($password,$row['password'])){
                                 $_SESSION['user']=$row;
-                                echo 'success';
+                                // echo 'success';
+                                header("location:../../admin/dashboard.php");
                             }else{
                                 echo 'Your credentials are invalid';
                             }
