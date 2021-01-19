@@ -1,6 +1,10 @@
 <?php 
+session_start();
+require "../script/UltraDBLayer.php";
 require "sections/header.php";
-require "sections/sidebar.php"; ?>
+require "sections/sidebar.php"; 
+$db = new UltraDBLayer;
+?>
 
 <h2>Courses</h2>
 <hr class="">
@@ -9,29 +13,55 @@ require "sections/sidebar.php"; ?>
 
 <div class="card">
     <div class="card-body">
-        <table class="table table-sm">
-            <thead>
-                <tr>
-                    <th class="font-weight-bold">CODE</th>
-                    <th class="font-weight-bold">COURSE TITLE</th>
-                    <th class="font-weight-bold">CREDIT</th>
-                    <th class="font-weight-bold">LEVEL</th>
-                    <th class="font-weight-bold">TRIMESTER</th>
-                </tr>
-            </thead>
-            <tbody>
-
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th class="font-weight-bold">CODE</th>
-                    <th class="font-weight-bold">COURSE TITLE</th>
-                    <th class="font-weight-bold">CREDIT</th>
-                    <th class="font-weight-bold">LEVEL</th>
-                    <th class="font-weight-bold">TRIMESTER</th>
-                </tr>
-            </tfoot>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th class="font-weight-bold">SN</th>
+                        <th class="font-weight-bold">CODE</th>
+                        <th class="font-weight-bold">COURSE TITLE</th>
+                        <th class="font-weight-bold">CREDIT</th>
+                        <th class="font-weight-bold">LEVEL</th>
+                        <th class="font-weight-bold text-center">TRIM</th>
+                        <th class="font-weight-bold"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    (int) $i = 0;
+                    $query = $db->select_records("courses");
+                    while ($rec = mysqli_fetch_assoc($query)) {
+                        $i++;
+                        ?>
+                    <tr>
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo $rec["course_code"]; ?></td>
+                        <td><?php echo $rec["course_title"]; ?></td>
+                        <td><?php echo $rec["credit"]; ?></td>
+                        <td><?php echo $rec["course_level"]; ?></td>
+                        <td class="text-center"><?php echo $rec["trimester"]; ?></td>
+                        <td>
+                            <a href="#!" class="btn-sm btn-primary text-white font-weight-bold">Edit</a> /
+                            <a href="#!" class="btn-sm btn-danger text-white font-weight-bold">Delete</a>
+                        </td>
+                    </tr>
+                    <?php
+                    }
+                    ?>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th class="font-weight-bold">SN</th>
+                        <th class="font-weight-bold">CODE</th>
+                        <th class="font-weight-bold">COURSE TITLE</th>
+                        <th class="font-weight-bold">CREDIT</th>
+                        <th class="font-weight-bold">LEVEL</th>
+                        <th class="font-weight-bold text-center">TRIM</th>
+                        <th class="font-weight-bold"></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -39,7 +69,7 @@ require "sections/sidebar.php"; ?>
 <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <form action="">
+            <form id="frmAdd">
                 <div class="modal-header">
                     <h5 class="modal-title">Add Course</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -54,7 +84,7 @@ require "sections/sidebar.php"; ?>
                     </div>
                     <div class="form-group">
                         <label for="" class="font-weight-bold">Course Title</label>
-                        <input type="text" name="course_tile" id="course_tile" class="form-control"
+                        <input type="text" name="course_title" id="course_title" class="form-control"
                             placeholder="Enter course tile here" aria-describedby="helpId" required>
                     </div>
                     <div class="form-group">
@@ -72,6 +102,7 @@ require "sections/sidebar.php"; ?>
                         <input type="text" name="trimester" id="trimester" class="form-control"
                             placeholder="Example is 1/2/3" aria-describedby="helpId" required>
                     </div>
+                    <input type="hidden" id="_token" name="_token" value="<?php echo $_SESSION["_token"]; ?>">
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-md btn-success">Save Record</button>
@@ -81,7 +112,26 @@ require "sections/sidebar.php"; ?>
         </div>
     </div>
 </div>
-       
 
 
- <?php require "sections/footer.php"; ?>
+
+<?php require "sections/footer.php"; ?>
+
+<script>
+$("#frmAdd").on("submit", function(e) {
+    e.preventDefault();
+    let data = $(this).serialize();
+    $.ajax({
+        type: "post",
+        url: "../script/admin/save_course.php",
+        data: data,
+        success: function(response) {
+            if (response == "success") {
+                alert("Registration Successful");
+            } else {
+                alert(response);
+            }
+        }
+    });
+});
+</script>

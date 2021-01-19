@@ -1,4 +1,5 @@
 <?php 
+session_start();
 require "sections/header.php";
 require "sections/sidebar.php"; ?>
 
