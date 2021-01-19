@@ -1,8 +1,8 @@
 <?php 
 session_start();
 require "../script/UltraDBLayer.php";
-require "sections/header.php";
-require "sections/sidebar.php"; 
+include "sections/header.php";
+include "sections/sidebar.php"; 
 $db = new UltraDBLayer;
 ?>
 

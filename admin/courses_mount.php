@@ -1,6 +1,6 @@
 <?php 
-require "sections/header.php";
-require "sections/sidebar.php"; ?>
+include "sections/header.php";
+include "sections/sidebar.php"; ?>
 
 <h2>Course Mount</h2>
 <hr class="">
@@ -14,4 +14,4 @@ require "sections/sidebar.php"; ?>
        
 
 
- <?php require "sections/footer.php"; ?>
+ <?php include "sections/footer.php"; ?>

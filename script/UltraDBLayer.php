@@ -9,7 +9,7 @@ class UltraDBLayer{
     public $server = 'localhost';
     public $server_user = 'root';
     public $server_password = '';
-    public $database = 'cbldatabase';
+    public $database = 'ultralms';
 
     // $conn = mysqli_connect($server, $server_user, $server_password, $database) or die('Error connecting Database');
 

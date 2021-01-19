@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 19, 2021 at 10:37 AM
+-- Generation Time: Jan 19, 2021 at 11:16 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -29,13 +29,20 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `courses` (
   `id` int(11) NOT NULL,
-  `coursecode` varchar(25) DEFAULT NULL,
-  `coursetitle` varchar(255) DEFAULT NULL,
+  `course_code` varchar(25) DEFAULT NULL,
+  `course_title` varchar(255) DEFAULT NULL,
   `credit` int(11) DEFAULT NULL,
   `trimester` varchar(15) DEFAULT NULL,
-  `courselevel` varchar(15) DEFAULT NULL,
+  `course_level` varchar(15) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `courses`
+--
+
+INSERT INTO `courses` (`id`, `course_code`, `course_title`, `credit`, `trimester`, `course_level`, `created_at`) VALUES
+(1, '123', 'PROGRAMMING CONCEPT', 3, '1', '100', '2021-01-19 10:07:45');
 
 -- --------------------------------------------------------
 
@@ -131,6 +138,13 @@ CREATE TABLE `facilitators` (
   `status` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `facilitators`
+--
+
+INSERT INTO `facilitators` (`id`, `staffid`, `name`, `centre`, `email`, `phone`, `password`, `status`, `created_at`) VALUES
+(1, '123', 'OBENG FRANK', NULL, 'obeng@gmail.com', '0542398441', '$2y$10$5LQdgD.BS0YmMteR8HlvP.ncrAT7EIMUEpB7OmymZBXbKEywbRu62', 1, '2021-01-19 10:12:13');
 
 -- --------------------------------------------------------
 
@@ -276,6 +290,13 @@ CREATE TABLE `system_users` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `system_users`
+--
+
+INSERT INTO `system_users` (`id`, `fullname`, `username`, `password`, `userrole`, `status`, `created_at`) VALUES
+(1, 'Admin', 'admin', '$2y$10$LMMQWe.gFKPosx0R.jvKM.RbQa5QMrvA56virk9hE2BsC9MJw6b1i', 'admin', 'active', '2021-01-19 09:48:07');
+
 -- --------------------------------------------------------
 
 --
@@ -292,14 +313,6 @@ CREATE TABLE `view_courses_allocation` (
 -- (See below for the actual view)
 --
 CREATE TABLE `view_courses_mount` (
-`id` int(11)
-,`courseid` int(11)
-,`coursecode` varchar(25)
-,`coursetitle` varchar(255)
-,`mounttrimester` int(11)
-,`acadyear` varchar(25)
-,`courselevel` varchar(15)
-,`coursetrimester` varchar(15)
 );
 
 -- --------------------------------------------------------
@@ -434,7 +447,7 @@ ALTER TABLE `system_users`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `courses_allocation`
@@ -476,7 +489,7 @@ ALTER TABLE `course_faqs`
 -- AUTO_INCREMENT for table `facilitators`
 --
 ALTER TABLE `facilitators`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `files`
@@ -530,7 +543,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `system_users`
 --
 ALTER TABLE `system_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

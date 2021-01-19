@@ -1,10 +1,10 @@
 <?php 
-session_start();
-require "sections/header.php";
-require "sections/sidebar.php"; ?>
+require("../middleware/verifyadmin.php");
+include "sections/header.php";
+include "sections/sidebar.php"; ?>
 
 <h2>Dashboard</h2>
 <hr class="">
 
 
- <?php require "sections/footer.php"; ?>
+ <?php include "sections/footer.php"; ?>

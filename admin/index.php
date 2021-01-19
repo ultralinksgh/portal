@@ -1,10 +1,7 @@
 <?php 
-session_start();
+require("../middleware/if_admin_authenticated.php");
 $_SESSION["_token"] = bin2hex(openssl_random_pseudo_bytes(16));
-require "../script/UltraDBLayer.php";
-require "sections/header.php";
-$db = new UltraDBLayer;
-// echo password_hash("1234",PASSWORD_DEFAULT);
+include "sections/header.php";
 ?>
 
 <div class="row mt-5">
