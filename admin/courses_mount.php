@@ -1,12 +1,9 @@
 <?php 
-<<<<<<< HEAD
-require "../script/UltraDBlayer.php";
-=======
 require("../middleware/verifyadmin.php");
 include "../script/UltraDBlayer.php";
->>>>>>> 51d7f1c3273c760b462c02a7518bebe93be9cdc4
 include "sections/header.php";
 include "sections/sidebar.php"; 
+$db=new UltraDBlayer;
 ?>
 
 <h2>Course Mount</h2>
@@ -54,13 +51,14 @@ include "sections/sidebar.php";
                     <option value="BSc OD">Bachelor of Science in Organisational Development</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-md btn-secondary mt-3 mb-3">Mount Courses</button>
+        </form>
+        <button type="button" class="btn btn-md btn-secondary mt-3 mb-3">Mount Courses</button>
             <div class="table-responsive">
                 <table class="table table-sm">
                     <thead>
                         <tr>
                             <th class="font-weight-bold">SN</th>
-                            <th class="font-weight-bold"></th>
+                            <th class="font-weight-bold">X</th>
                             <th class="font-weight-bold">CODE</th>
                             <th class="font-weight-bold">COURSE TITLE</th>
                             <th class="font-weight-bold">CREDIT</th>
@@ -91,7 +89,7 @@ include "sections/sidebar.php";
                     <tfoot>
                         <tr>
                             <th class="font-weight-bold">SN</th>
-                            <th class="font-weight-bold"></th>
+                            <th class="font-weight-bold">X</th>
                             <th class="font-weight-bold">CODE</th>
                             <th class="font-weight-bold">COURSE TITLE</th>
                             <th class="font-weight-bold">CREDIT</th>
@@ -101,8 +99,7 @@ include "sections/sidebar.php";
                     </tfoot>
                 </table>
             </div>
-            <button type="submit" class="btn btn-md btn-secondary mt-3 mb-3">Mount Courses</button>
-        </form>
+            <button type="button" class="btn btn-md btn-secondary mt-3 mb-3">Mount Courses</button>
     </div>
 </div>
 
