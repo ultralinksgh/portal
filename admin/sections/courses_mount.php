@@ -1,8 +1,9 @@
 <?php 
 require("../middleware/verifyadmin.php");
-include "../script/UltraDBlayer.php";
+require "../script/UltraDBlayer.php";
 include "sections/header.php";
 include "sections/sidebar.php"; 
+$db = new UltraDBLayer;
 ?>
 
 <h2>Course Mount</h2>
@@ -65,7 +66,7 @@ include "sections/sidebar.php";
                         </tr>
                     </thead>
                     <tbody>
-                    <?php 
+                        <?php 
                     (int) $i = 0;
                     $query = $db->select_records("courses");
                     while ($rec = mysqli_fetch_assoc($query)) {
