@@ -1,5 +1,5 @@
 <?php 
-session_start();
+require("../middleware/verifyadmin.php");
 require "../script/UltraDBLayer.php";
 require "sections/header.php";
 require "sections/sidebar.php"; 

@@ -3,7 +3,6 @@ session_start();
 require "../UltraDBLayer.php";
 $db = new UltraDBLayer();
 
-$token = $db->validate($_POST["_token"]);
 $studentId=$db->validate(strtoupper($_POST['student_id']));
 $name=$db->validate(strtoupper($_POST['name']));
 $gender=$db->validate($_POST['gender']);
@@ -13,7 +12,7 @@ $phone=$db->validate($_POST['phone']);
 $program=$db->validate($_POST['program']);
 $admission_year=$db->validate($_POST['admission_year']);
 $centre=$db->validate($_POST['centre']);
-$password = $db->validate(password_hash('123456',PASSWORD_DEFAULT));
+$password = password_hash('123456',PASSWORD_DEFAULT);
 
 (string) $table = "students";
 (array) $fields[] = "studentid,name,gender,email,phone,level,program,academic_year,center,password";
