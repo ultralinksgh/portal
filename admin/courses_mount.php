@@ -1,5 +1,5 @@
 <?php 
-include "../script/UltraDBlayer.php";
+require "../script/UltraDBlayer.php";
 include "sections/header.php";
 include "sections/sidebar.php"; 
 $db = new UltraDBLayer;
