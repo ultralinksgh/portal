@@ -12,7 +12,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     if(empty($_POST['_token']) || $_POST['_token'] != $_SESSION['_token']){
         echo ('Invalid CSRF token');
     }else{
-        echo delete_record_on_condition($table, $condition);
+        echo $db->delete_record_on_condition($table, $condition);
     }
 }
    
