@@ -1,14 +1,16 @@
 <?php 
-include "../script/UltraDBlayer.php";
+require("../middleware/verifyadmin.php");
+require "../script/UltraDBLayer.php";
 include "sections/header.php";
 include "sections/sidebar.php"; 
+$db = new UltraDBLayer;
 ?>
 
-<h2>Course Mount</h2>
+<h2 class="font-weight-bold">Course Mount</h2>
 <hr class="">
 <div class="card">
     <div class="card-body">
-        <form action="">
+        <form id="formMount">
             <div class="row">
                 <div class="col-sm-4">
                     <div class="form-group">
@@ -49,13 +51,13 @@ include "sections/sidebar.php";
                     <option value="BSc OD">Bachelor of Science in Organisational Development</option>
                 </select>
             </div>
+
             <button type="submit" class="btn btn-md btn-secondary mt-3 mb-3">Mount Courses</button>
-            <div class="table-responsive">
+            <div class="table-responsive" id="table">
                 <table class="table table-sm">
                     <thead>
                         <tr>
-                            <th class="font-weight-bold">SN</th>
-                            <th class="font-weight-bold"></th>
+                            <th class="font-weight-bold">SELECT</th>
                             <th class="font-weight-bold">CODE</th>
                             <th class="font-weight-bold">COURSE TITLE</th>
                             <th class="font-weight-bold">CREDIT</th>
@@ -65,14 +67,11 @@ include "sections/sidebar.php";
                     </thead>
                     <tbody>
                     <?php 
-                    (int) $i = 0;
                     $query = $db->select_records("courses");
                     while ($rec = mysqli_fetch_assoc($query)) {
-                        $i++;
                         ?>
                         <tr>
-                            <td><?php echo $i; ?></td>
-                            <td><input type="checkbox" class="course[]" id="course[]"></td>
+                            <td><input type="checkbox" name="course_ids[]" value="<?php echo $rec['id']; ?>"></td>
                             <td><?php echo $rec["course_code"]; ?></td>
                             <td><?php echo $rec["course_title"]; ?></td>
                             <td><?php echo $rec["credit"]; ?></td>
@@ -85,8 +84,7 @@ include "sections/sidebar.php";
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th class="font-weight-bold">SN</th>
-                            <th class="font-weight-bold"></th>
+                            <th class="font-weight-bold">SELECT</th>
                             <th class="font-weight-bold">CODE</th>
                             <th class="font-weight-bold">COURSE TITLE</th>
                             <th class="font-weight-bold">CREDIT</th>
@@ -96,9 +94,41 @@ include "sections/sidebar.php";
                     </tfoot>
                 </table>
             </div>
-            <button type="submit" class="btn btn-md btn-secondary mt-3 mb-3">Mount Courses</button>
+            <button type="button" class="btn btn-md btn-secondary mt-3 mb-3">Mount Courses</button>
+
         </form>
     </div>
 </div>
 
 <?php include "sections/footer.php"; ?>
+<script>
+$("#formMount").on("submit",function(e){
+    e.preventDefault();
+    var $this = $(this);
+    var countChecked = 0;
+    $('#table tr:has(td)').find('input[type="checkbox"]').each(function() {
+        if ($(this).prop("checked")){
+            countChecked +=1;
+        }
+    });
+    if(countChecked === 0){
+        alert("No course selected");
+    }else{
+        let data = $this.serialize();
+        alert(data)
+        // $.ajax({
+        //     type: "post",
+        //     url: "../script/admin/allocate_course.php",
+        //     data: data,
+        //     success: function (response) {
+        //         if (response == "success") {
+        //             alert("Course allocation successful");
+        //             $("#formMount")[0].reset();
+        //         } else {
+        //             alert(response);
+        //         }
+        //     }
+        // });
+    }
+});
+</script>
