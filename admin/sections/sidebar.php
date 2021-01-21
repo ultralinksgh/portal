@@ -87,6 +87,8 @@
           <i class="fas fa-map mr-3"></i>Courses</a>
         <a href="courses_mount.php" class="list-group-item list-group-item-action waves-effect">
           <i class="fas fa-money-bill-alt mr-3"></i>Course Mount</a>
+          <a href="courses_allocation.php" class="list-group-item list-group-item-action waves-effect">
+          <i class="fas fa-money-bill-alt mr-3"></i>Course Allocation</a>
       </div>
 
     </div>

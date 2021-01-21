@@ -6,7 +6,7 @@ include "sections/sidebar.php";
 $db=new UltraDBlayer;
 ?>
 
-<h2>Course Mount</h2>
+<h2 class="font-weight-bold">Course Mount</h2>
 <hr class="">
 <div class="card">
     <div class="card-body">

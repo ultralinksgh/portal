@@ -6,7 +6,7 @@ require "sections/sidebar.php";
 $db = new UltraDBLayer;
 ?>
 
-<h2>Students</h2>
+<h2 class="font-weight-bold">Students</h2>
 <hr class="">
 
 <button type="button" class="btn btn-dark btn-md mb-4" data-toggle="modal" data-target="#modelId">Add
