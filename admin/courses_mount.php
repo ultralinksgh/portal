@@ -1,10 +1,5 @@
 <?php 
-<<<<<<< HEAD
-require "../script/UltraDBlayer.php";
-=======
-require("../middleware/verifyadmin.php");
 include "../script/UltraDBlayer.php";
->>>>>>> 51d7f1c3273c760b462c02a7518bebe93be9cdc4
 include "sections/header.php";
 include "sections/sidebar.php"; 
 ?>

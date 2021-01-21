@@ -46,7 +46,7 @@ class UltraDBLayer{
     }
 
     function select_single_column($column,$table){
-        global $conn;
+        $conn = $this->connection();
         $query = mysqli_query($conn,"SELECT $column FROM $table") or die('Something went wrong');
         return $query;
     }
