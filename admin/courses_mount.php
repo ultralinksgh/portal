@@ -94,7 +94,7 @@ $db = new UltraDBLayer;
                     </tfoot>
                 </table>
             </div>
-            <button type="button" class="btn btn-md btn-secondary mt-3 mb-3">Mount Courses</button>
+            <button type="submit" class="btn btn-md btn-secondary mt-3 mb-3">Mount Courses</button>
 
         </form>
     </div>
@@ -115,7 +115,7 @@ $("#formMount").on("submit",function(e){
         alert("No course selected");
     }else{
         let data = $this.serialize();
-        alert(data)
+        console.log(data);
         // $.ajax({
         //     type: "post",
         //     url: "../script/admin/allocate_course.php",
