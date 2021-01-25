@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 19, 2021 at 11:16 AM
+-- Generation Time: Jan 25, 2021 at 03:11 PM
 -- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.0
+-- PHP Version: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -68,7 +68,8 @@ CREATE TABLE `courses_mount` (
   `id` int(11) NOT NULL,
   `courseid` int(11) DEFAULT NULL,
   `trimester` int(11) DEFAULT NULL,
-  `acadyear` varchar(25) DEFAULT NULL
+  `academic_year` varchar(25) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -119,6 +120,21 @@ CREATE TABLE `course_faqs` (
   `courseid` int(11) DEFAULT NULL,
   `studentid` int(11) DEFAULT NULL,
   `question` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `course_registrations`
+--
+
+CREATE TABLE `course_registrations` (
+  `id` int(11) NOT NULL,
+  `courseid` int(11) DEFAULT NULL,
+  `trimester` int(11) DEFAULT NULL,
+  `academic_year` varchar(25) DEFAULT NULL,
+  `is_late_registration` tinyint(1) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -259,7 +275,7 @@ CREATE TABLE `settings` (
 
 CREATE TABLE `students` (
   `id` int(11) NOT NULL,
-  `studentid` varchar(100) DEFAULT NULL,
+  `studentid` varchar(100) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `gender` int(1) DEFAULT NULL COMMENT '1=Male,2=Female',
   `email` varchar(100) DEFAULT NULL,
@@ -297,42 +313,6 @@ CREATE TABLE `system_users` (
 INSERT INTO `system_users` (`id`, `fullname`, `username`, `password`, `userrole`, `status`, `created_at`) VALUES
 (1, 'Admin', 'admin', '$2y$10$LMMQWe.gFKPosx0R.jvKM.RbQa5QMrvA56virk9hE2BsC9MJw6b1i', 'admin', 'active', '2021-01-19 09:48:07');
 
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `view_courses_allocation`
--- (See below for the actual view)
---
-CREATE TABLE `view_courses_allocation` (
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view `view_courses_mount`
--- (See below for the actual view)
---
-CREATE TABLE `view_courses_mount` (
-);
-
--- --------------------------------------------------------
-
---
--- Structure for view `view_courses_allocation`
---
-DROP TABLE IF EXISTS `view_courses_allocation`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_courses_allocation`  AS SELECT `courses_allocation`.`id` AS `id`, `courses_allocation`.`staffid` AS `staffid`, `courses_allocation`.`courseid` AS `courseid`, `courses_allocation`.`acadyear` AS `acadyear`, `courses_allocation`.`trim` AS `trim`, `courses`.`coursecode` AS `coursecode`, `courses`.`coursetitle` AS `coursetitle`, `courses`.`credit` AS `credit`, `courses`.`trimester` AS `trimester`, `courses`.`courselevel` AS `courselevel` FROM (`courses_allocation` join `courses`) WHERE `courses_allocation`.`courseid` = `courses`.`id` ;
-
--- --------------------------------------------------------
-
---
--- Structure for view `view_courses_mount`
---
-DROP TABLE IF EXISTS `view_courses_mount`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_courses_mount`  AS SELECT `courses_mount`.`id` AS `id`, `courses_mount`.`courseid` AS `courseid`, `courses`.`coursecode` AS `coursecode`, `courses`.`coursetitle` AS `coursetitle`, `courses_mount`.`trimester` AS `mounttrimester`, `courses_mount`.`acadyear` AS `acadyear`, `courses`.`courselevel` AS `courselevel`, `courses`.`trimester` AS `coursetrimester` FROM (`courses_mount` join `courses`) WHERE `courses_mount`.`id` = `courses`.`id` ;
-
 --
 -- Indexes for dumped tables
 --
@@ -347,13 +327,16 @@ ALTER TABLE `courses`
 -- Indexes for table `courses_allocation`
 --
 ALTER TABLE `courses_allocation`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `staffid` (`staffid`),
+  ADD KEY `courseid` (`courseid`);
 
 --
 -- Indexes for table `courses_mount`
 --
 ALTER TABLE `courses_mount`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `courseid` (`courseid`);
 
 --
 -- Indexes for table `courses_objectives`
@@ -378,6 +361,13 @@ ALTER TABLE `courses_topics`
 --
 ALTER TABLE `course_faqs`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `course_registrations`
+--
+ALTER TABLE `course_registrations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `courseid` (`courseid`);
 
 --
 -- Indexes for table `facilitators`
@@ -431,7 +421,8 @@ ALTER TABLE `settings`
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `studentid` (`studentid`);
 
 --
 -- Indexes for table `system_users`
@@ -450,100 +441,27 @@ ALTER TABLE `courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `courses_allocation`
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `courses_allocation`
 --
 ALTER TABLE `courses_allocation`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  ADD CONSTRAINT `courses_allocation_ibfk_1` FOREIGN KEY (`staffid`) REFERENCES `facilitators` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `courses_allocation_ibfk_2` FOREIGN KEY (`courseid`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- AUTO_INCREMENT for table `courses_mount`
+-- Constraints for table `courses_mount`
 --
 ALTER TABLE `courses_mount`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  ADD CONSTRAINT `courses_mount_ibfk_1` FOREIGN KEY (`courseid`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- AUTO_INCREMENT for table `courses_objectives`
+-- Constraints for table `course_registrations`
 --
-ALTER TABLE `courses_objectives`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `courses_references`
---
-ALTER TABLE `courses_references`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `courses_topics`
---
-ALTER TABLE `courses_topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `course_faqs`
---
-ALTER TABLE `course_faqs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `facilitators`
---
-ALTER TABLE `facilitators`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `files`
---
-ALTER TABLE `files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `files_submissions`
---
-ALTER TABLE `files_submissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `liveclass`
---
-ALTER TABLE `liveclass`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `noticeboard`
---
-ALTER TABLE `noticeboard`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `notice_read`
---
-ALTER TABLE `notice_read`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `parkinglot`
---
-ALTER TABLE `parkinglot`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `settings`
---
-ALTER TABLE `settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `students`
---
-ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `system_users`
---
-ALTER TABLE `system_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `course_registrations`
+  ADD CONSTRAINT `course_registrations_ibfk_1` FOREIGN KEY (`courseid`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
