@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 25, 2021 at 03:11 PM
+-- Generation Time: Jan 28, 2021 at 10:54 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.1
 
@@ -34,6 +34,7 @@ CREATE TABLE `courses` (
   `credit` int(11) DEFAULT NULL,
   `trimester` varchar(15) DEFAULT NULL,
   `course_level` varchar(15) DEFAULT NULL,
+  `is_optional` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -41,8 +42,8 @@ CREATE TABLE `courses` (
 -- Dumping data for table `courses`
 --
 
-INSERT INTO `courses` (`id`, `course_code`, `course_title`, `credit`, `trimester`, `course_level`, `created_at`) VALUES
-(1, '123', 'PROGRAMMING CONCEPT', 3, '1', '100', '2021-01-19 10:07:45');
+INSERT INTO `courses` (`id`, `course_code`, `course_title`, `credit`, `trimester`, `course_level`, `is_optional`, `created_at`) VALUES
+(1, '123', 'PROGRAMMING CONCEPT', 3, '1', '100', 0, '2021-01-19 10:07:45');
 
 -- --------------------------------------------------------
 
