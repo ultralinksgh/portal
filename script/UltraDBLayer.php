@@ -31,76 +31,76 @@ class UltraDBLayer{
         } //end if
     }
 
-    public function select_records($table)
+    public function select_records(string $table)
     {
         $conn = $this->connection();
         $query = mysqli_query($conn, "SELECT * FROM $table") or die('Something went wrong');
         return $query;
     }
 
-    function select_records_in_order($table, $order)
+    function select_records_in_order(string $table, string $order)
     {
         $conn = $this->connection();
         $query = mysqli_query($conn, "SELECT * FROM $table ORDER BY $order") or die('Something went wrong');
         return $query;
     }
 
-    function select_single_column($column,$table){
+    function select_single_column(string $column, string $table){
         $conn = $this->connection();
         $query = mysqli_query($conn,"SELECT $column FROM $table") or die('Something went wrong');
         return $query;
     }
 
-function select_single_column_on_condition($column,$table,$condition){
-	global $conn;
-	$query = mysqli_query($conn,"SELECT $column FROM $table WHERE $condition") or die('Something went wrong');
-	return $query;
-}
+    function select_single_column_on_condition(string $column, string $table, string $condition){
+        $conn = $this->connection();
+        $query = mysqli_query($conn,"SELECT $column FROM $table WHERE $condition") or die('Something went wrong');
+        return $query;
+    }
 
-function select_single_column_in_order($column,$table,$order){
-	global $conn;
-	$query = mysqli_query($conn,"SELECT $column FROM $table ORDER BY $order") or die('Something went wrong');
-	return $query;
-}
+    function select_single_column_in_order(string $column, string $table, string $order){
+        $conn = $this->connection();
+        $query = mysqli_query($conn,"SELECT $column FROM $table ORDER BY $order") or die('Something went wrong');
+        return $query;
+    }
 
-function select_records_on_condition($table, $condition)
-{
-    global $conn;
-    $query = mysqli_query($conn, "SELECT * FROM $table WHERE $condition") or die(mysqli_error($conn));
-    return $query;
-}
+    function select_records_on_condition(string $table, string $condition)
+    {
+        $conn = $this->connection();
+        $query = mysqli_query($conn, "SELECT * FROM $table WHERE $condition") or die(mysqli_error($conn));
+        return $query;
+    }
 
-function select_records_on_random_condition($table, $condition, $questions)
-{
-    global $conn;
-    $query = mysqli_query($conn, "SELECT * FROM $table WHERE $condition ORDER BY RAND() LIMIT $questions") or die(mysqli_error($conn));
-    return $query;
-}
+    function select_records_on_random_condition(string $table, string $condition, int $questions)
+    {
+        $conn = $this->connection();
+        $query = mysqli_query($conn, "SELECT * FROM $table WHERE $condition ORDER BY RAND() LIMIT $questions") or die(mysqli_error($conn));
+        return $query;
+    }
 
-function select_records_on_condition_in_order($table, $condition, $order)
-{
-    global $conn;
-    $query = mysqli_query($conn, "SELECT * FROM $table WHERE $condition ORDER BY $order") or die(mysqli_error($conn));
-    return $query;
-}
+    function select_records_on_condition_in_order(string $table, string $condition, string $order)
+    {
+        $conn = $this->connection();
+        $query = mysqli_query($conn, "SELECT * FROM $table WHERE $condition ORDER BY $order") or die(mysqli_error($conn));
+        return $query;
+    }
 
-function count_rows($table)
-{
-    global $conn;
-    $query = mysqli_query($conn, "SELECT COUNT(*) AS count FROM $table") or die('Something went wrong');
-    $query = mysqli_fetch_assoc($query);
-    $count = $query['count'];
-    return $count;
-}
+    function count_rows(string $table)
+    {
+        $conn = $this->connection();
+        $query = mysqli_query($conn, "SELECT COUNT(*) AS count FROM $table") or die('Something went wrong');
+        $query = mysqli_fetch_assoc($query);
+        $count = $query['count'];
+        return $count;
+    }
 
-function count_rows_on_condition($table, $condition)
-{
-    global $conn;
-    $query = mysqli_query($conn, "SELECT COUNT(*) AS count FROM $table WHERE $condition") or die('Something went wrong');
-    $query = mysqli_fetch_assoc($query);
-    $count = $query['count'];
-    return $count;
-}
+    function count_rows_on_condition(string $table, string $condition)
+    {
+        $conn = $this->connection();
+        $query = mysqli_query($conn, "SELECT COUNT(*) AS count FROM $table WHERE $condition") or die('Something went wrong');
+        $query = mysqli_fetch_assoc($query);
+        $count = $query['count'];
+        return $count;
+    }
 
     function delete_records(string $table)
     {

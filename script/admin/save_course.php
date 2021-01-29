@@ -11,7 +11,7 @@ $course_level=$db->validate($_POST['course_level']);
 $option= (!empty($_POST['option']))? $db->validate($_POST['option']): 0;
 
 (string) $table = "courses";
-(array) $fields[] = "course_code,course_title,credit,trimester,course_level";
+(array) $fields[] = "course_code,course_title,credit,trimester,course_level,is_optional";
 (array) $values[] = "'$course_code','$course_title','$credit','$trimester','$course_level','$option'";
 
 if($_SERVER['REQUEST_METHOD']=='POST'){

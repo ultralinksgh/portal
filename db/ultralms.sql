@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 28, 2021 at 10:54 AM
+-- Generation Time: Jan 29, 2021 at 11:18 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.1
 
@@ -141,6 +141,22 @@ CREATE TABLE `course_registrations` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `course_registration_settings`
+--
+
+CREATE TABLE `course_registration_settings` (
+  `id` int(11) NOT NULL,
+  `academic_year` varchar(25) NOT NULL,
+  `start_registration_date` date NOT NULL,
+  `end_registration_date` date NOT NULL,
+  `late_start_date` date NOT NULL,
+  `late_end_date` date NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `facilitators`
 --
 
@@ -264,7 +280,7 @@ CREATE TABLE `parkinglot` (
 
 CREATE TABLE `settings` (
   `id` int(11) NOT NULL,
-  `acadyear` varchar(25) DEFAULT NULL,
+  `academic_year` varchar(25) DEFAULT NULL,
   `trimester` int(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -322,7 +338,8 @@ INSERT INTO `system_users` (`id`, `fullname`, `username`, `password`, `userrole`
 -- Indexes for table `courses`
 --
 ALTER TABLE `courses`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `course_code` (`course_code`);
 
 --
 -- Indexes for table `courses_allocation`
@@ -369,6 +386,12 @@ ALTER TABLE `course_faqs`
 ALTER TABLE `course_registrations`
   ADD PRIMARY KEY (`id`),
   ADD KEY `courseid` (`courseid`);
+
+--
+-- Indexes for table `course_registration_settings`
+--
+ALTER TABLE `course_registration_settings`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `facilitators`
@@ -440,6 +463,12 @@ ALTER TABLE `system_users`
 --
 ALTER TABLE `courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `course_registration_settings`
+--
+ALTER TABLE `course_registration_settings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
